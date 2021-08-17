@@ -31,7 +31,7 @@ export default {
             category: '',
             value: '',
             categoryAdded: '',
-            show: true,
+            show: false,
         }
     },
     computed: {

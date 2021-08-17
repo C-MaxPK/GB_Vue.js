@@ -3,7 +3,6 @@
         <header>
             <h1 class="title">My personal costs</h1>
             <add-payment-form @addNewPayment='addData' />
-            <router-link to="/add/payment/Food?value=500">добавить еды за 500</router-link>
         </header>
         <main class="content">
             <payments-display :list="currentElements" />
