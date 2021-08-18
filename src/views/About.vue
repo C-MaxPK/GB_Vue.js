@@ -3,11 +3,11 @@
 </template>
 
 <script>
-export default {
-    name: 'About',
-}
+export default {};
 </script>
 
-<style>
-
+<style scoped>
+div {
+  width: 450px;
+}
 </style>

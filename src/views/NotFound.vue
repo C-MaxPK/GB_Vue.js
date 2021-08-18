@@ -1,13 +1,10 @@
 <template>
-    <div>Login</div>
+  <div>Not found</div>
 </template>
 
 <script>
-export default {
-    name: 'Login',
-}
+export default {};
 </script>
 
 <style>
-
 </style>

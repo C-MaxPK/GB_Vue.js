@@ -1,50 +1,102 @@
 <template>
-    <div class="pagination">
-        <div class="page" @click="onClick(cur - 1)">Prev</div>
-        <div class="page" v-for="page in amount" :key="page" @click="onClick(page)">
-            {{ page }}
-        </div>
-        <div class="page" @click="onClick(cur + 1)">Next</div>
-    </div>
+  <div class="pagination">
+    <button class="btn" :disabled="pageNumber === 0" @click="prevPage">
+      Previous
+    </button>
+    <ul>
+      <li
+        :class="pageNumber + 1 === p ? 'active' : ''"
+        @click="changePage(p)"
+        v-for="p in pageCount"
+        :key="p"
+      >
+        {{ p }}
+      </li>
+    </ul>
+    <button
+      class="btn"
+      :disabled="pageNumber >= pageCount - 1"
+      @click="nextPage"
+    >
+      Next
+    </button>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'Pagination',
-    props: {
-        length: Number,
-        n: {
-            type: Number,
-            default: 5,
-        },
-        cur: Number,
+  props: {
+    pageNumber: {
+      type: Number,
     },
-    computed: {
-        amount() {
-            return Math.ceil(this.length / this.n);
-        }
+    payment: {
+      type: Array,
+      default: () => [],
     },
-    methods: {
-        onClick(page) {
-            if (page < 1 || page > this.amount) {
-                return
-            } else {
-                this.$emit('changePage', page);
-            }
-        },
+    size: {
+      type: Number,
+      required: false,
+      default: 5,
     },
-}
+  },
+  computed: {
+    pageCount() {
+      let l = this.payment.length,
+        s = this.size;
+      return Math.ceil(l / s);
+    },
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    changePage(p) {
+      const data = p;
+      this.$emit("chosePage", data);
+    },
+    nextPage() {
+      this.$emit("nextPage");
+    },
+    prevPage() {
+      this.$emit("prevPage");
+    },
+  },
+};
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .pagination {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    width: 600px;
-    display: flex;
-    justify-content: center;
+  display: flex;
+  width: 450px;
+  justify-content: space-between;
 }
-.page {
-    cursor: pointer;
-    padding: 3px 7px;
+ul {
+  list-style: none;
+  display: flex;
+}
+li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+li:first-child {
+  margin-left: 50px;
+}
+
+li:last-child {
+  margin-right: 50px;
+}
+.btn {
+  font-weight: 300;
+  width: 70px;
+  height: 30px;
+}
+.active {
+  font-weight: 600;
 }
 </style>

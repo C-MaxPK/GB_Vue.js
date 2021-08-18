@@ -1,63 +1,78 @@
-'use strict';
-
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue"
+import Vuex from "vuex"
 
 Vue.use(Vuex);
 
-export default new Vuex.Store ({
+export default new Vuex.Store({
+
+    //Базовые данные в хранилеще хранятся в объекте state
     state: {
         paymentsList: [],
-        categories: [],
+        categoryList: [],
     },
+
+    //Изменения и действия с хранилищем записываются в мутациях
     mutations: {
         setPaymentListData(state, payload) {
-            state.paymentsList = [...payload, ...state.paymentsList];
+            state.paymentsList = payload;
         },
         addDataToPaymentList(state, payload) {
-            state.paymentsList.push(payload);
+            state.paymentsList.unshift(payload);
+
         },
-        setCategoriesListData(state, payload) {
-            state.categories = payload;
+        addNewCategory(state, playload) {
+            state.categoryList.push(playload);
         },
-        addCategoryToList(state, payload) {
-            state.categories.push(payload);
-        },
+        setCategoryList(state, payload) {
+            state.categoryList = payload;
+        }
     },
+
+    //Получение данных
+
     getters: {
-        getPaymentsList: state => state.paymentsList,
-        getFullPaymentValue: state => {
-            return state.paymentsList.reduce((result, current) => result + current.value, 0);
-        }, // подсчет общей суммы расходов
-        getCategories: state => state.categories,
+        getPaymentList: state => state.paymentsList,
+        getFullPrise: state => {
+            return state.paymentsList.reduce((acc, cur) => acc + cur.value, 0);
+        },
+        getCategory: state => state.categoryList
     },
+
+    // Ассинхронные действия с хранилищем, запускающие мутации
+
     actions: {
-        fetchData({commit}) {
-            if(this.state.paymentsList.length) return;
+        fetchData({
+            commit,
+        }) {
+
             return new Promise((resolve) => {
-                setTimeout(()=> {
+                setTimeout(() => {
                     const items = [];
-                    for (let i = 0; i < 6; i++) {
+                    for (let i = 1; i < 20; i++) {
                         items.push({
-                            date: '10.08.2021',
-                            category: 'Sport',
-                            value: i,
-                            id: i + 1,
+                            id: i,
+                            category: 'Food',
+                            value: 456
                         });
                     }
-                    resolve(items);
-                }, 1000);
+                    resolve(items.reverse())
+                }, 1000)
+            }).then(res => {
+                commit('setPaymentListData', res);
             })
-            .then(res => commit('setPaymentListData', res));
         },
-        fetchCategoryList({commit}) {
+        fetchCategory({
+            commit
+        }) {
             return new Promise((resolve) => {
-                setTimeout(()=> {
-                    const categories = ['Sport', 'Food', 'Education', 'Internet', 'Other'];
-                    resolve(categories);
-                }, 1000);
+                setTimeout(() => {
+                    resolve(['Food', 'Sport', 'Education', 'Auto', 'Health', 'Family'])
+                }, 1000)
+            }).then(res => {
+                commit('setCategoryList', res)
             })
-            .then(res => commit('setCategoriesListData', res));
-        },
-    },
+        }
+
+    }
+
 });

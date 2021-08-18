@@ -1,4 +1,4 @@
-# vue_costs
+# cost_vue
 
 ## Project setup
 ```

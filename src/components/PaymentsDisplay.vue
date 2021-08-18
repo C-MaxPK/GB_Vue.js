@@ -1,56 +1,74 @@
 <template>
-  <div class="list">
-
-    <table class='table' cellspacing="0">
-      <thead>
-        <th>#</th>
-        <th>Date</th>
-        <th>Category</th>
-        <th>Value</th>
-      </thead>
-      <tbody>
-        <tr v-for="(item, idx) in list" :key="idx">
-          <td>{{ item.id }}</td>
-          <td>{{ item.date }}</td>
-          <td>{{ item.category }}</td>
-          <td>{{ item.value }}</td>
-        </tr>
-      </tbody>
-    </table>
-
+  <div class="payment">
+    <div class="payment-header">
+      <span class="payment-header-title">#</span>
+      <span class="payment-header-title">Date</span>
+      <span class="payment-header-title">Category</span>
+      <span class="payment-header-title">Value</span>
+    </div>
+    <div class="payment-item" v-for="(item, idx) in payment" :key="idx">
+      <span class="payment-item-text">{{ item.id }}</span>
+      <span class="payment-item-text">{{ item.date }}</span>
+      <span class="payment-item-text">{{ item.category }}</span>
+      <span class="payment-item-text">{{ item.value }}</span>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PaymentsDisplay',
   props: {
-    list: {
+    payment: {
       type: Array,
       default: () => [],
     },
-  },
+}
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-.list {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  color: #2c3e50;
+<style scoped>
+.payment {
+  width: 450px;
 }
-.table {
-  width: 600px;
-  margin-bottom: 20px;
+.payment-header {
+  box-sizing: border-box;
+  height: 30px;
+  font-weight: 600;
+  width: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 5px;
+  border-bottom: 1px solid gray;
 }
-th {
-  text-align: left;
-  border-bottom: 2px solid black;
-  padding: 10px;
+
+.payment-header-title {
+  width: 100px;
 }
-td {
-  border-bottom: 1px solid grey;
-  padding: 8px;
-  color: grey;
+.payment-header-title:first-child {
+  width: 50px;
+}
+.payment-item {
+  border-bottom: 1px solid gray;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.payment-item-text {
+  width: 100px;
+}
+
+.payment-item-text:first-child {
+  width: 50px;
+}
+.delete {
+  font-size: 25px;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  cursor: pointer;
 }
 </style>
